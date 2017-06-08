@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<h2> Top Rated Restaurants </h2>
+
+<% for (let i = 0; i < nextData.best_rated_restaurant.length; i++) {%>
+
+<ol>
+	<li><%=nextData.best_rated_restaurant[i].restaurant.name%></li>
+	<li><%=nextData.best_rated_restaurant[i].restaurant.cuisines%></li>
+	<li><%=nextData.best_rated_restaurant[i].restaurant.location.address%></li>
+	<li><%=nextData.best_rated_restaurant[i].restaurant.location.locality_verbose%></li>
+	<li><%=nextData.best_rated_restaurant[i].restaurant.url%></li>
+</ol>
+
+
+<% }%>
+
+</body>
+</html>

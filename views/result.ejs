@@ -6,11 +6,16 @@
 <body>
 
 
-<h1> Sanity Check </h1>
+<h1> RESTAURANTS IN YOUR AREA </h1>
 
 <% for (let i = 0; i < nearbyResArray.length; i++){%>
 
 	<h3><%=nearbyResArray[i].name %></h3>
+	<h4><%=nearbyResArray[i].cuisines%></h4>
+	<h5><%=nearbyResArray[i].location.address %></h5>
+	<h5><%=nearbyResArray[i].location.locality %></h5>
+	<h5><%=nearbyResArray[i].url %></h5>
+
 
 <%}%>
 

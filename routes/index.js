@@ -26,7 +26,7 @@ router.post('/search',(req,res)=>{
 	var creds = {
 		url: searchUrl,
 		headers:{
-			"user-key": "*************"
+			"user-key": "4dd26c0b6b70bcd2ab9b055e2036ab46"
 		}
 	}
 	request.get(creds, (error,response,locationData)=>{
@@ -38,7 +38,7 @@ router.post('/search',(req,res)=>{
 		var newUrl = {
 			url: newCreds,
 			headers:{
-				"user-key": "******************"
+				"user-key": "4dd26c0b6b70bcd2ab9b055e2036ab46"
 			}
 		}
 		// res.json(locationData);
@@ -49,10 +49,6 @@ router.post('/search',(req,res)=>{
 ///////Need to loop through nearby_res and best_rated_restaurant.restaurant.name(includes 10 best rated in search area) or .url .cuisines etc...//////
 ///////to include in the ejs file when redering.  Map feature is another posibility/////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			// for (let i = 0; i < nextData.nearby_res.length; i++){
-			// 	var nearResId = nextData.nearby_res[i]
-			// 	console.log(nextData.nearby_res[i])
-			// }
 
 			// res.json(nextData);
 			// res.render('res-results', {nextData: nextData});
@@ -63,7 +59,7 @@ router.post('/search',(req,res)=>{
 				var resCred = {
 					url: nearbyResUrl,
 					headers: {
-						"user-key": "*********************"
+						"user-key": "4dd26c0b6b70bcd2ab9b055e2036ab46"
 					}
 				}
 				var nearbyResArray = [];
@@ -74,26 +70,54 @@ router.post('/search',(req,res)=>{
 					// res.json(resName);
 					// res.render('result', {resName: resName});
 					if(nearbyResArray.length == totalNearRes){
-						res.render('result', {nearbyResArray: nearbyResArray});
+						// res.render('result', {nearbyResArray: nearbyResArray});
 					}
 				//////TEST///////////////////////////
 				});
 
 			}
 
-			// res.render('result', {nextData: nextData})
-			// res.json(nextData);
-			//////TEST///////////////////////
-
 		});
-
-
 
 		
 	});
 	
 
 });
+
+router.post('/searchTopRated',(req,res)=>{
+	var locationName = req.body.searchBest
+	var searchUrl = "https://developers.zomato.com/api/v2.1/locations?query=" + locationName;
+	var creds = {
+		url: searchUrl,
+		headers:{
+			"user-key": "4dd26c0b6b70bcd2ab9b055e2036ab46"
+		}
+	}
+	request.get(creds, (error,response,locationData)=>{
+		var locationData = JSON.parse(locationData);
+		var entType = locationData.location_suggestions[0].entity_type
+		var entID = locationData.location_suggestions[0].entity_id
+		var locDetUrl = "https://developers.zomato.com/api/v2.1/location_details?"
+		var newCreds = `${locDetUrl}entity_id=${entID}&entity_type=${entType}`
+		var newUrl = {
+			url: newCreds,
+			headers:{
+				"user-key": "4dd26c0b6b70bcd2ab9b055e2036ab46"
+			}
+		}
+		request.get(newUrl, (error,repsonse, nextData)=>{
+			var nextData = JSON.parse(nextData)
+			// console.log(nextData.best_rated_restaurant[0].restaurant.name)
+			// res.json(nextData);
+			res.render('top-rated', {nextData: nextData})
+
+		});
+
+	});
+
+});
+
 
 // router.get('/search/result',(req,res)=>{
 // 	var resultUrl = 
