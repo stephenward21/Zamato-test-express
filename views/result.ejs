@@ -4,6 +4,80 @@
 	<title></title>
 </head>
 <body>
+<style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 80%;
+        width:80%;
+        text-align: center;
+        margin: 60px;
+        padding: 60px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+
+    var atlPoint = {lat:33.7490, lng: -84.3880}
+    var sampleCoords = [
+		{lat:33.786522, lng: -84.412572},
+		{lat:33.7715099, lng: -84.3893109},
+		{lat:33.8366897, lng: -84.3787457},
+	];
+
+	var markers = [];
+	var contentString = ['<div>JCT Kitchen</div>', '<div>The Varsity</div>', '<div>Atlanta Fish Market</div>'];
+
+	var map;
+	function initMap() {
+	  // var myLatLng = {lat:, lng: };
+	  map = new google.maps.Map(document.getElementById('map'), {
+	      center: atlPoint,
+	      zoom: 8
+	    });
+	dropPin();
+	};
+
+	function dropPin(){
+		for (let i = 0; i < sampleCoords.length; i++){
+			var marker = new google.maps.Marker({
+		      	position: sampleCoords[i],
+		      	map: map,
+		     	title: 'Hello World!'
+		    });
+		    markers.push(marker);
+		    console.log(markers)
+		    for(let i = 0; i < markers.length; i++){
+		    	// for (let i = 0; i < contentString.length; i++){			
+		    		var infowindow = new google.maps.InfoWindow({
+		    			content: contentString[i]
+		    		
+		    		});
+
+		    	// }
+	    			
+        		
+        		markers[i].addListener('click', function() {
+      				infowindow.open(map, marker);
+    			});
+        	}
+		        
+	 
+	  	}
+	  	
+	  	
+	    
+	}
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMhTz95_uN41xRrxZK4wxovk9VOE0KAcI&callback=initMap"
+    async defer></script>
+
 
 
 <h1> RESTAURANTS IN YOUR AREA </h1>
@@ -14,6 +88,8 @@
 	<h4><%=nearbyResArray[i].cuisines%></h4>
 	<h5><%=nearbyResArray[i].location.address %></h5>
 	<h5><%=nearbyResArray[i].location.locality %></h5>
+	<h5><%=nearbyResArray[i].location.latitude %></h5>
+	<h5><%=nearbyResArray[i].location.longitude %></h5>
 	<h5><%=nearbyResArray[i].url %></h5>
 
 

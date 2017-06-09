@@ -70,19 +70,15 @@ router.post('/search',(req,res)=>{
 					// res.json(resName);
 					// res.render('result', {resName: resName});
 					if(nearbyResArray.length == totalNearRes){
-						// res.render('result', {nearbyResArray: nearbyResArray});
+						res.render('result', {nearbyResArray: nearbyResArray});
 					}
 				//////TEST///////////////////////////
 				});
-
 			}
-
 		});
-
-		
+	
 	});
 	
-
 });
 
 router.post('/searchTopRated',(req,res)=>{
@@ -116,6 +112,10 @@ router.post('/searchTopRated',(req,res)=>{
 
 	});
 
+});
+
+router.get('/maps', (req,res)=>{
+	res.render('maps', { });
 });
 
 
