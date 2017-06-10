@@ -26,54 +26,55 @@
 
     var atlPoint = {lat:33.7490, lng: -84.3880}
     var sampleCoords = [
-		{lat:33.786522, lng: -84.412572},
-		{lat:33.7715099, lng: -84.3893109},
-		{lat:33.8366897, lng: -84.3787457},
+		["JCT Kitchen", 33.786522, -84.412572],
+		["The Varsity", 33.7715099, -84.3893109],
+		["Atlanta Fish Market",33.8366897, -84.3787457],
 	];
 
 	var markers = [];
-	var contentString = ['<div>JCT Kitchen</div>', '<div>The Varsity</div>', '<div>Atlanta Fish Market</div>'];
+
+	var infoWindowContent = ["<div>Best Spot in Midtown</div>", "<div>Whatta ya Have!</div>", "<div>Buckhead Fish</div>"];
+	
 
 	var map;
 	function initMap() {
 	  // var myLatLng = {lat:, lng: };
 	  map = new google.maps.Map(document.getElementById('map'), {
 	      center: atlPoint,
-	      zoom: 8
+	      zoom: 10
 	    });
-	dropPin();
+
+	dropMarker();
 	};
 
-	function dropPin(){
+
+	function dropMarker(){
+		var infoWindow = new google.maps.InfoWindow(), marker, i;
 		for (let i = 0; i < sampleCoords.length; i++){
 			var marker = new google.maps.Marker({
-		      	position: sampleCoords[i],
+		      	position: {lat:sampleCoords[i][1], lng:sampleCoords[i][2]},
+		      	animation: google.maps.Animation.DROP,
 		      	map: map,
-		     	title: 'Hello World!'
+		     	title: sampleCoords[i][0]
 		    });
 		    markers.push(marker);
-		    console.log(markers)
+		    // console.log(markers)
 		    for(let i = 0; i < markers.length; i++){
-		    	// for (let i = 0; i < contentString.length; i++){			
-		    		var infowindow = new google.maps.InfoWindow({
-		    			content: contentString[i]
-		    		
-		    		});
+		    	
+	   			markers[i].addListener('click', function() {
+      				infoWindow.open(map, markers[i]);
+      				infoWindow.setContent(infoWindowContent[i]);
 
-		    	// }
-	    			
+	    			});	
         		
-        		markers[i].addListener('click', function() {
-      				infowindow.open(map, marker);
-    			});
         	}
-		        
+
+				        
 	 
 	  	}
-	  	
-	  	
-	    
 	}
+	  		  	
+	    
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMhTz95_uN41xRrxZK4wxovk9VOE0KAcI&callback=initMap"
     async defer></script>
