@@ -2,9 +2,8 @@
 <html>
 <head>
 	<title></title>
-</head>
-<body>
-<style>
+
+	<style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
@@ -19,18 +18,39 @@
         padding: 60px;
       }
     </style>
-  </head>
+
+</head>
+<body>
+<h1> RESTAURANTS IN YOUR AREA </h1>
+
+
+<div id="demo"></div>
+	
+  
   <body>
     <div id="map"></div>
+   
+
     <script>
+    <%console.log(nearbyResArray);%>
 
-    var atlPoint = {lat:33.7490, lng: -84.3880}
-    var sampleCoords = [
-		["JCT Kitchen", 33.786522, -84.412572],
-		["The Varsity", 33.7715099, -84.3893109],
-		["Atlanta Fish Market",33.8366897, -84.3787457],
-	];
+    var x = document.getElementById("demo");
+	function getLocation() {
+	    if (navigator.geolocation) {
+	        navigator.geolocation.getCurrentPosition(showPosition);
+	    } else {
+	        x.innerHTML = "Geolocation is not supported by this browser.";
+	    }
+	}
+	function showPosition(position) {
+	    x.innerHTML = "Latitude: " + position.coords.latitude + 
+	    "<br>Longitude: " + position.coords.longitude; 
+	}
+	getLocation();
 
+    var centerPoint = {lat:<%=nearbyResArray[0].location.latitude%>, lng: <%=nearbyResArray[0].location.longitude%>}
+
+	
 	var markers = [];
 
 	var infoWindowContent = ["<div>Best Spot in Midtown</div>", "<div>Whatta ya Have!</div>", "<div>Buckhead Fish</div>"];
@@ -40,22 +60,22 @@
 	function initMap() {
 	  // var myLatLng = {lat:, lng: };
 	  map = new google.maps.Map(document.getElementById('map'), {
-	      center: atlPoint,
+	      center: centerPoint,
 	      zoom: 10
 	    });
 
-	dropMarker();
+	dropMarker()
 	};
 
 
 	function dropMarker(){
 		var infoWindow = new google.maps.InfoWindow(), marker, i;
-		for (let i = 0; i < sampleCoords.length; i++){
+		<%for (let i = 0; i < nearbyResArray.length; i++){%>
 			var marker = new google.maps.Marker({
-		      	position: {lat:sampleCoords[i][1], lng:sampleCoords[i][2]},
+		      	position: {lat:<%=nearbyResArray[i].location.latitude%>, lng:<%=nearbyResArray[i].location.longitude%>},
 		      	animation: google.maps.Animation.DROP,
 		      	map: map,
-		     	title: sampleCoords[i][0]
+		     	title: "<%=nearbyResArray[i].name%>"
 		    });
 		    markers.push(marker);
 		    // console.log(markers)
@@ -65,23 +85,21 @@
       				infoWindow.open(map, markers[i]);
       				infoWindow.setContent(infoWindowContent[i]);
 
-	    			});	
+	    		});	
         		
         	}
 
 				        
 	 
-	  	}
+	  	<%}%>
 	}
 	  		  	
 	    
     </script>
+ 
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMhTz95_uN41xRrxZK4wxovk9VOE0KAcI&callback=initMap"
     async defer></script>
-
-
-
-<h1> RESTAURANTS IN YOUR AREA </h1>
 
 <% for (let i = 0; i < nearbyResArray.length; i++){%>
 
@@ -95,6 +113,10 @@
 
 
 <%}%>
+
+
+
+
 
 </body>
 </html>
