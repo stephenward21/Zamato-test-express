@@ -61,7 +61,7 @@
 	  // var myLatLng = {lat:, lng: };
 	  map = new google.maps.Map(document.getElementById('map'), {
 	      center: centerPoint,
-	      zoom: 10
+	      zoom: 12
 	    });
 
 	dropMarker()
@@ -75,20 +75,29 @@
 		      	position: {lat:<%=nearbyResArray[i].location.latitude%>, lng:<%=nearbyResArray[i].location.longitude%>},
 		      	animation: google.maps.Animation.DROP,
 		      	map: map,
-		     	title: "<%=nearbyResArray[i].name%>"
+		     	title: "<%-nearbyResArray[i].name%>",
+		     	cuisines: "<%-nearbyResArray[i].cuisines%>",
+		     	address: "<%=nearbyResArray[i].location.address%>",
+		     	rating: "<%=nearbyResArray[i].user_rating.aggregate_rating%>",
+		     	cost: <%=nearbyResArray[i].price_range%>,
+		     	url: "<%=nearbyResArray[i].url%>"
 		    });
+			infoWindow.setContent("<%-nearbyResArray[i].name%>");
 		    markers.push(marker);
-		    // console.log(markers)
+		    
+		    console.log(markers)
 		    for(let i = 0; i < markers.length; i++){
 		    	
 	   			markers[i].addListener('click', function() {
       				infoWindow.open(map, markers[i]);
-      				infoWindow.setContent(infoWindowContent[i]);
+      				infoWindow.setContent("<p>" + markers[i].address + "<br />" + 
+                  "cuisine: " + markers[i].cuisines + "<br />" + "rating(out of 5): " + markers[i].rating + "<br />" + "price range: " + markers[i].cost + "<br />" + markers[i].url + "</p>");
+      				
 
-	    		});	
+	    	});	
         		
-        	}
-
+        	
+	   		}
 				        
 	 
 	  	<%}%>
@@ -106,7 +115,7 @@
 	<h3><%=nearbyResArray[i].name %></h3>
 	<h4><%=nearbyResArray[i].cuisines%></h4>
 	<h5><%=nearbyResArray[i].location.address %></h5>
-	<h5><%=nearbyResArray[i].location.locality %></h5>
+	<h5><%=nearbyResArray[i].location.locality_verbose %></h5>
 	<h5><%=nearbyResArray[i].location.latitude %></h5>
 	<h5><%=nearbyResArray[i].location.longitude %></h5>
 	<h5><%=nearbyResArray[i].url %></h5>

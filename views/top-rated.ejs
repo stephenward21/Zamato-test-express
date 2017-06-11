@@ -70,8 +70,14 @@
 		      	position: {lat:<%=nextData.best_rated_restaurant[i].restaurant.location.latitude%>, lng:<%=nextData.best_rated_restaurant[i].restaurant.location.longitude%>},
 		      	animation: google.maps.Animation.DROP,
 		      	map: map,
-		     	title: "<%=nextData.best_rated_restaurant[i].restaurant.name%>"
+		     	title: "<%=nextData.best_rated_restaurant[i].restaurant.name%>",
+		     	cuisines: "<%-nextData.best_rated_restaurant[i].restaurant.cuisines%>",
+		     	address: "<%=nextData.best_rated_restaurant[i].restaurant.location.address%>",
+		     	rating: "<%=nextData.best_rated_restaurant[i].restaurant.user_rating.aggregate_rating%>",
+		     	cost: <%=nextData.best_rated_restaurant[i].restaurant.price_range%>,
+		     	url: "<%=nextData.best_rated_restaurant[i].restaurant.url%>"
 		    });
+
 
 		    markers.push(marker);
 		    // console.log(markers)
@@ -79,7 +85,8 @@
 		    	
 	   			markers[i].addListener('click', function() {
       				infoWindow.open(map, markers[i]);
-      				infoWindow.setContent(infoWindowContent[i]);
+      				infoWindow.setContent("<p>" + markers[i].address + "<br />" + 
+                  "cuisine: " + markers[i].cuisines + "<br />" + "rating(out of 5): " + markers[i].rating + "<br />" + "price range: " + markers[i].cost + "<br />" + markers[i].url + "</p>");
 
 	    			});
         		
